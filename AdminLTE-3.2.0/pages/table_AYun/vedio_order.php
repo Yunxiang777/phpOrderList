@@ -357,6 +357,7 @@ session_start();
           const docFrag = $(document.createDocumentFragment()); //建立一個空的物件
           $.each(users, function (idx, vedio_order_Detail) {
             const { ordervideoID, ordervideomemberID, ordervideodDate } = vedio_order_Detail;
+            console.log(ordervideomemberID);
             //ordervideoID是主訂單流水號 , ordervideomemberID購買的會員,ordervideodDate訂單成立的時間
             $.ajax({
               url: './orderALLapi/vedio_showdetail.php',
@@ -366,6 +367,8 @@ session_start();
               dataType: 'json'
             }).done(function (member) {
               const { name, avatarname, email, phone_number } = member;
+              console.log(member);
+            
               //此訂單的會員 名字,頭像,mail,電話
               const data = `
                         <tr data-widget="expandable-table" aria-expanded="false" >
