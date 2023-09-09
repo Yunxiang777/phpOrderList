@@ -5,4 +5,5 @@
 <img width="357" alt="員工登入頁面" src="https://github.com/Yunxiang777/phpOrderList/assets/129476652/886fcfbe-9c7a-4b7a-9491-40a012e6d3de">
 <P>3.使用員工測試的帳號:'yunxiangwang777@gmail.com'與密碼:'p_01'，進入主頁面</P>
 <img width="938" alt="首頁" src="https://github.com/Yunxiang777/phpOrderList/assets/129476652/30abb5d5-fc08-4d51-8379-54c5a789df4d">
-<p>4.登入成功!接著開始DEMO過程</p>
+<p>4.登入成功!接著開始DEMO過程，點選以下網址，前往demo的ppt</p>
+<a href='https://docs.google.com/presentation/d/e/2PACX-1vSokuYaKJ5QP-L2xBfYG9imkiPT3eA9jTB54koTg1ngzcLiuVRpDaR0UVYgnhZGC705JJXKlfHDLRgB/pub?start=false&loop=false&delayms=3000'>前往PPT</a>
