@@ -1,6 +1,7 @@
 <?php
-    require_once ("./pages/login/pdo-connect.php");
-    session_start();
+// 驗證使用者是否已登入
+require_once __DIR__ . '/pages/auth/auth.php';
+// 確認使用者已登入，否則重定向到登入頁面
 ?>
 
 <!DOCTYPE html>
@@ -35,78 +36,85 @@
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 
-    
-<style>
-    .loader {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 6rem;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-  }
-  .loader:before,
-  .loader:after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    animation: pulsOut 1.8s ease-in-out infinite;
-    filter: drop-shadow(0 0 1rem rgba(255, 255, 255, 0.75));
-  }
-  .loader:before {
-    width: 100%;
-    padding-bottom: 100%;
-    box-shadow: inset 0 0 0 1rem #fff;
-    animation-name: pulsIn;
-  }
-  .loader:after {
-    width: calc(100% - 2rem);
-    padding-bottom: calc(100% - 2rem);
-    box-shadow: 0 0 0 0 #fff;
-  }
 
-  @keyframes pulsIn {
-    0% {
-      box-shadow: inset 0 0 0 1rem #fff;
-      opacity: 1;
-    }
-    50%, 100% {
-      box-shadow: inset 0 0 0 0 #fff;
-      opacity: 0;
-    }
-  }
+    <style>
+        .loader {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 6rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
 
-  @keyframes pulsOut {
-    0%, 50% {
-      box-shadow: 0 0 0 0 #fff;
-      opacity: 0;
-    }
-    100% {
-      box-shadow: 0 0 0 1rem #fff;
-      opacity: 1;
-    }
-  }
-      
+        .loader:before,
+        .loader:after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            animation: pulsOut 1.8s ease-in-out infinite;
+            filter: drop-shadow(0 0 1rem rgba(255, 255, 255, 0.75));
+        }
 
-  
-  .linked-paragraph {
-    cursor: pointer;
-  }
+        .loader:before {
+            width: 100%;
+            padding-bottom: 100%;
+            box-shadow: inset 0 0 0 1rem #fff;
+            animation-name: pulsIn;
+        }
 
-</style>
+        .loader:after {
+            width: calc(100% - 2rem);
+            padding-bottom: calc(100% - 2rem);
+            box-shadow: 0 0 0 0 #fff;
+        }
+
+        @keyframes pulsIn {
+            0% {
+                box-shadow: inset 0 0 0 1rem #fff;
+                opacity: 1;
+            }
+
+            50%,
+            100% {
+                box-shadow: inset 0 0 0 0 #fff;
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulsOut {
+
+            0%,
+            50% {
+                box-shadow: 0 0 0 0 #fff;
+                opacity: 0;
+            }
+
+            100% {
+                box-shadow: 0 0 0 1rem #fff;
+                opacity: 1;
+            }
+        }
+
+
+
+        .linked-paragraph {
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-    <div class="preloader flex-column justify-content-center align-items-center" style="background-color: #263038;">
-        <span class="loader"></span>
-    </div>
+        <div class="preloader flex-column justify-content-center align-items-center" style="background-color: #263038;">
+            <span class="loader"></span>
+        </div>
 
-        
+
         <!-- Navbar -->
 
         <!-- /.navbar -->
@@ -123,20 +131,20 @@
             <!-- 側邊欄位開始 -->
             <div class="sidebar">
                 <!-- 個人資料 -->
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div class="image">
-                                <img src="./pages/tables_7/user_image/<?php echo $_SESSION["avatar"];?>" class="img-circle elevation-2"
-                                alt="User Image"/>
-                                <!-- 頭像 -->
-                            </div>
-                        <div class="info">
-                            <a href="#" class="d-block ml-3">
-                                <?php echo  $_SESSION["user"] ; ?>
-                            </a>
-                            <!-- 員工名字 -->
-                        </div>
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="./pages/tables_7/user_image/<?php echo $_SESSION["avatar"]; ?>"
+                            class="img-circle elevation-2" alt="User Image" />
+                        <!-- 頭像 -->
                     </div>
-                
+                    <div class="info">
+                        <a href="#" class="d-block ml-3">
+                            <?php echo  $_SESSION["user"]; ?>
+                        </a>
+                        <!-- 員工名字 -->
+                    </div>
+                </div>
+
                 <!--  側欄內容 -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -213,7 +221,7 @@
                         <!-- 影音列表 -> 影音管理 + 影音管理 -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fas fa-video nav-icon" ></i>
+                                <i class="fas fa-video nav-icon"></i>
                                 <p>影音列表<i class="right fas fa-angle-left"></i></p>
                             </a>
                             <ul class="nav nav-treeview">
@@ -260,12 +268,12 @@
                         </li>
 
                     </ul>
-                    
+
                 </nav>
                 <a href="./pages/login/logOut.php" class="mt-auto sidebar-link">登出</a>
-                    <!-- 登出按鈕 -->
+                <!-- 登出按鈕 -->
             </div>
-          
+
         </aside>
         <!-- 側邊欄結束 End -->
 
@@ -288,76 +296,91 @@
             </div>
             <!-- /.content-header -->
 
-        
+
             <section class="content">
                 <div class="container-fluid">
-                    
+
                     <div class="row">
 
                         <!-- 商品管理 -->
-                        <div class="col-lg-2 col-6 linked-paragraph"  onclick="window.location.href ='./pages/table_Tung/product1.php'">
+                        <div class="col-lg-2 col-6 linked-paragraph"
+                            onclick="window.location.href ='./pages/table_Tung/product1.php'">
                             <div class="small-box bg-info">
                                 <div class="inner">
                                     <h3>商品管理</h3>
-                                     <p class="linked-paragraph" onclick="window.location.href ='./pages/table_Tung/product1.php'">新增商品</p>
+                                    <p class="linked-paragraph"
+                                        onclick="window.location.href ='./pages/table_Tung/product1.php'">新增商品</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="./pages/table_Tung/product1.php" class="small-box-footer">More <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="./pages/table_Tung/product1.php" class="small-box-footer">More <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
 
                         <!-- 影片管理 -->
-                        <div class="col-lg-2 col-6 linked-paragraph" onclick="window.location.href ='./pages/tables_Luna/mainpageajax.php'">
+                        <div class="col-lg-2 col-6 linked-paragraph"
+                            onclick="window.location.href ='./pages/tables_Luna/mainpageajax.php'">
                             <div class="small-box bg-success">
                                 <div class="inner">
                                     <h3>影片管理</h3>
-                                    <p class="linked-paragraph" onclick="window.location.href ='./pages/tables_Luna/mainpageajax.php'">新增商品</p>
+                                    <p class="linked-paragraph"
+                                        onclick="window.location.href ='./pages/tables_Luna/mainpageajax.php'">新增商品</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-video"></i>
                                 </div>
-                                <a href="./pages/tables_Luna/mainpageajax.php" class="small-box-footer">More <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="./pages/tables_Luna/mainpageajax.php" class="small-box-footer">More <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- 會員管理 -->
-                        <div class="col-lg-2 col-6 linked-paragraph" onclick="window.location.href ='./pages/tables_7/member.php'" >
+                        <div class="col-lg-2 col-6 linked-paragraph"
+                            onclick="window.location.href ='./pages/tables_7/member.php'">
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                     <h3 >會員管理</h3>
-                                     <p  class="linked-paragraph" onclick="window.location.href ='./pages/tables_7/member.php'">新增會員</p>
+                                    <h3>會員管理</h3>
+                                    <p class="linked-paragraph"
+                                        onclick="window.location.href ='./pages/tables_7/member.php'">新增會員</p>
                                 </div>
                                 <div class="icon">
-                                        <i class="ion ion-person-add"></i>
-                                 </div>
-                                 <a href="./pages/tables_7/member.php" class="small-box-footer">More <i class="fas fa-arrow-circle-right"></i></a>
+                                    <i class="ion ion-person-add"></i>
+                                </div>
+                                <a href="./pages/tables_7/member.php" class="small-box-footer">More <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- 訂單管理 -->
-                        <div class="col-lg-3 col-6 linked-paragraph" onclick="window.location.href ='./pages/table_AYun/realItem_order.php'">
+                        <div class="col-lg-3 col-6 linked-paragraph"
+                            onclick="window.location.href ='./pages/table_AYun/realItem_order.php'">
                             <div class="small-box bg-danger">
                                 <div class="inner">
                                     <h3>訂單管理</h3>
-                                    <p class="linked-paragraph" onclick="window.location.href ='./pages/table_AYun/realItem_order.php'">新增訂單</p>
+                                    <p class="linked-paragraph"
+                                        onclick="window.location.href ='./pages/table_AYun/realItem_order.php'">新增訂單</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-list"></i>
                                 </div>
-                                <a href="./pages/table_AYun/realItem_order.php" class="small-box-footer">More <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="./pages/table_AYun/realItem_order.php" class="small-box-footer">More <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- 食物管理 -->
-                        <div class="col-lg-3 col-6 linked-paragraph" onclick="window.location.href ='./pages/table_33/fooddata.php'">
+                        <div class="col-lg-3 col-6 linked-paragraph"
+                            onclick="window.location.href ='./pages/table_33/fooddata.php'">
                             <div class="small-box bg-secondary">
                                 <div class="inner">
                                     <h3>食物管理</h3>
-                                    <p class="linked-paragraph" onclick="window.location.href ='./pages/table_33/fooddata.php'">新增食物</p>
+                                    <p class="linked-paragraph"
+                                        onclick="window.location.href ='./pages/table_33/fooddata.php'">新增食物</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-bone"></i>
                                 </div>
-                                <a href="./pages/table_33/fooddata.php" class="small-box-footer">More <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="./pages/table_33/fooddata.php" class="small-box-footer">More <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -484,12 +507,12 @@
     <script src="dist/js/adminlte.js"></script>
 
     <script>
-        $(function () {
+        $(function() {
 
             /* initialize the external events
              -----------------------------------------------------------------*/
             function ini_events(ele) {
-                ele.each(function () {
+                ele.each(function() {
 
                     // create an Event Object (https://fullcalendar.io/docs/event-object)
                     // it doesn't need to have a start or end
@@ -504,7 +527,7 @@
                     $(this).draggable({
                         zIndex: 1070,
                         revert: true, // will cause the event to go back to its
-                        revertDuration: 0  //  original position after the drag
+                        revertDuration: 0 //  original position after the drag
                     })
 
                 })
@@ -532,11 +555,13 @@
 
             new Draggable(containerEl, {
                 itemSelector: '.external-event',
-                eventData: function (eventEl) {
+                eventData: function(eventEl) {
                     return {
                         title: eventEl.innerText,
-                        backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
-                        borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
+                        backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue(
+                            'background-color'),
+                        borderColor: window.getComputedStyle(eventEl, null).getPropertyValue(
+                            'background-color'),
                         textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
                     };
                 }
@@ -550,8 +575,7 @@
                 },
                 themeSystem: 'bootstrap',
                 //Random default events
-                events: [
-                    {
+                events: [{
                         title: 'All Day Event',
                         start: new Date(y, m, 1),
                         backgroundColor: '#f56954', //red
@@ -599,7 +623,7 @@
                 ],
                 editable: true,
                 droppable: true, // this allows things to be dropped onto the calendar !!!
-                drop: function (info) {
+                drop: function(info) {
                     // is the "remove after drop" checkbox checked?
                     if (checkbox.checked) {
                         // if so, remove the element from the "Draggable Events" list
@@ -614,7 +638,7 @@
             /* ADDING EVENTS */
             var currColor = '#3c8dbc' //Red by default
             // Color chooser button
-            $('#color-chooser > li > a').click(function (e) {
+            $('#color-chooser > li > a').click(function(e) {
                 e.preventDefault()
                 // Save color
                 currColor = $(this).css('color')
@@ -624,7 +648,7 @@
                     'border-color': currColor
                 })
             })
-            $('#add-new-event').click(function (e) {
+            $('#add-new-event').click(function(e) {
                 e.preventDefault()
                 // Get value and make sure it is not null
                 var val = $('#new-event').val()
