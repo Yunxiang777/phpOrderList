@@ -1,15 +1,4 @@
 <?php
-require_once __DIR__ . '/../../config/config.php';
-// /pages/auth/auth.php
-
-// session_start();
-
-// if (!isset($_SESSION['email'])) {
-//     header('Location: /VENDOR_DASHBOARD/pages/login/login.php');
-//     exit;
-// }
-
-
 /* Remember Me Cookie */
 if (isset($_COOKIE['remember_token'])) {
 
@@ -36,5 +25,5 @@ if (isset($_COOKIE['remember_token'])) {
 }
 
 /* 全部失敗 → 去登入頁 */
-header('Location: ' . LOGIN_PATH);
+header('Location: ' . $config['routes']['login']);
 exit;

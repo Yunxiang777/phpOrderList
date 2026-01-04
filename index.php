@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/bootstrap.php';
 
-// 驗證使用者是否已登入
+// 驗證使用者是否登入
 require_once ROOT_PATH . '/app/auth/auth.php';
 // 確認使用者已登入，否則重定向到登入頁面
 ?>
