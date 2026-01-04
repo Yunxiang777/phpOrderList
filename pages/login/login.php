@@ -32,167 +32,169 @@ if(isset($_POST['submit'])){
  ?>
 
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>員工登入</title>
-<!-- 	Add in production:normalize,	main.css	 -->
- <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
- 
- <style>
+    <!-- 	Add in production:normalize,	main.css	 -->
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+
+    <style>
     /* TODO 
    1.Add moving asteroids
    2.
 */
 
-*,*:before, *:after {
-	box-sizing:border-box;
-}
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
 
-body {
-/* 	background-color:#C9C9C9; */
-	font-family:"Lato",sans-serif;
-	color:#fff;
-}
+    body {
+        /* 	background-color:#C9C9C9; */
+        font-family: "Lato", sans-serif;
+        color: #fff;
+    }
 
-form {
-	max-width:300px;
-	margin:70px auto 10px;
-	padding:10px 20px;
-	position:relative;
-	opacity:1;
-	box-shadow: 0px 10px 120px -8px rgba(0,0,0,1.53);
-}
+    form {
+        max-width: 300px;
+        margin: 70px auto 10px;
+        padding: 10px 20px;
+        position: relative;
+        opacity: 1;
+        box-shadow: 0px 10px 120px -8px rgba(0, 0, 0, 1.53);
+    }
 
-form:before {
-	content:"";
-	display:block;
-	position:absolute;
-	top:0;
-	left:0;
-	background-image:url(http://farm8.staticflickr.com/7025/6843559729_635a06485d.jpg);
-	background-size:fill;
-	background-position:center;
-	background-color:#000;
-	width:100%;
-	height:100%;
-	opacity:1.5;
-	z-index:-1;
-}
+    form:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-image: url(http://farm8.staticflickr.com/7025/6843559729_635a06485d.jpg);
+        background-size: fill;
+        background-position: center;
+        background-color: #000;
+        width: 100%;
+        height: 100%;
+        opacity: 1.5;
+        z-index: -1;
+    }
 
-#orbit{
-	width: 44px;
-	position: absolute;
-	bottom: 60px;
- left: 430px;
-	fill:#fff;
-}
+    #orbit {
+        width: 44px;
+        position: absolute;
+        bottom: 60px;
+        left: 430px;
+        fill: #fff;
+    }
 
-/* 
+    /* 
 ICON CREDIT:
 <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div> */
 
-h4{
-    font-size:35px;
-	margin:40px 0 30px 160px;
-	text-align:left;
-}
+    h4 {
+        font-size: 35px;
+        margin: 40px 0 30px 160px;
+        text-align: left;
+    }
 
-h4:after{
-	content:"";
-	height:2px;
-	width:50px;
-	display:block;
-	border-bottom:1px solid #FFF;
-	background:white;
-}
+    h4:after {
+        content: "";
+        height: 2px;
+        width: 50px;
+        display: block;
+        border-bottom: 1px solid #FFF;
+        background: white;
+    }
 
-input[type="text"],
-input[type="password"]{
-	border:none;
-	font-size:16px;
-	height:auto;
-	margin:0;
-	outline:0;
-	padding:10px;
-	margin-bottom:20px;
-	color:#fff;
-	background:none;
-	width:100%;
-	border-bottom:1px solid #fff;
-}
+    input[type="text"],
+    input[type="password"] {
+        border: none;
+        font-size: 16px;
+        height: auto;
+        margin: 0;
+        outline: 0;
+        padding: 10px;
+        margin-bottom: 20px;
+        color: #fff;
+        background: none;
+        width: 100%;
+        border-bottom: 1px solid #fff;
+    }
 
-input[type="checkbox"]{
-	margin:9px 10px 0px 0;
-	zoom:.99;
-}
+    input[type="checkbox"] {
+        margin: 9px 10px 0px 0;
+        zoom: .99;
+    }
 
-button {
-	padding:10px;
-	margin:0 0 0 50px;
-	color:#fff;
-	background-color:#307FE4;
-	font-size:11px;
-	text-align:center;
-	font-style:normal;
-	border-radius:35px;
-	width:30%;
-	border:1px solid #307FE4;
-}
+    button {
+        padding: 10px;
+        margin: 0 0 0 50px;
+        color: #fff;
+        background-color: #307FE4;
+        font-size: 11px;
+        text-align: center;
+        font-style: normal;
+        border-radius: 35px;
+        width: 30%;
+        border: 1px solid #307FE4;
+    }
 
-label{
-	color:#FFFFFF;
-	clear:both;
-	float:left;
-}
+    label {
+        color: #FFFFFF;
+        clear: both;
+        float: left;
+    }
 
-span{
-	font-size:14px;
-}
+    span {
+        font-size: 14px;
+    }
 
-#forgot{
-	text-align: center;
-	background: none;
-	display: block;
-	color: rgba(255, 255, 255, 0.42);
-	text-decoration: none;
-	padding:20px;
-	margin-top:10px;
-	font-size:13px;
-}
+    #forgot {
+        text-align: center;
+        background: none;
+        display: block;
+        color: rgba(255, 255, 255, 0.42);
+        text-decoration: none;
+        padding: 20px;
+        margin-top: 10px;
+        font-size: 13px;
+    }
 
-#remember{
-	
-}
+    #remember {}
 
-#checkbox:after{
-	content="Remember me";
-	width:100%;
-	height:100%;
-	background:grey;
-}
+    #checkbox:after {
+        content="Remember me";
+        width: 100%;
+        height: 100%;
+        background: grey;
+    }
 
-/*********************Media Queries**********************/
-@media screen and (min-width:480px){
-	form{
-		max-width:500px;
-	}
-}
- </style>
-	</head>
-  <body>
-			<div class="container">
-			 <form action="" method="post">
-<!-- SVG -->
-					<?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="orbit" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="497.398px" height="497.398px" viewBox="0 0 497.398 497.398" style="enable-background:new 0 0 497.398 497.398;"
-	 xml:space="preserve">
-<g>
-	<g>
-		<path d="M248.699,78.499C154.85,78.499,78.5,154.85,78.5,248.687c0,93.85,76.362,170.193,170.199,170.193
+    /*********************Media Queries**********************/
+    @media screen and (min-width:480px) {
+        form {
+            max-width: 500px;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="" method="post">
+            <!-- SVG -->
+            <?xml version="1.0" encoding="iso-8859-1"?>
+            <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+            <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+            <svg version="1.1" id="orbit" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px" y="0px" width="497.398px" height="497.398px" viewBox="0 0 497.398 497.398"
+                style="enable-background:new 0 0 497.398 497.398;" xml:space="preserve">
+                <g>
+                    <g>
+                        <path d="M248.699,78.499C154.85,78.499,78.5,154.85,78.5,248.687c0,93.85,76.362,170.193,170.199,170.193
 			s170.194-76.344,170.194-170.193C418.893,154.85,342.536,78.499,248.699,78.499z M211.192,107.47
 			c9.528-2.534,19.442-4.11,29.643-4.659c0.403,8.022,0.917,19.682,1.349,34.208h-35.86
 			C208.366,123.76,210.165,113.198,211.192,107.47z M158.161,134.03c12.004-9.505,25.549-17.101,40.163-22.49
@@ -229,65 +231,65 @@ span{
 			C341.298,324.904,338.379,339.593,335.973,351.037z M307.271,297.439c2.138-14.865,3.784-29.543,4.496-42.832H350.5
 			c-0.584,12.938-2.383,27.931-4.672,42.832H307.271z M353.022,351.037h-4.811c2.452-11.688,5.324-26.273,7.87-41.641h25.55
 			C374.508,324.916,364.839,339.009,353.022,351.037z M357.973,297.439c2.219-14.842,3.947-29.765,4.508-42.832h32.205
-			c-0.607,14.97-3.434,29.345-8.244,42.832H357.973z"/>
-		<path d="M440.25,90.287c2.674-5.237,4.297-11.093,4.297-17.37c0-21.369-17.329-38.698-38.698-38.698
+			c-0.607,14.97-3.434,29.345-8.244,42.832H357.973z" />
+                        <path d="M440.25,90.287c2.674-5.237,4.297-11.093,4.297-17.37c0-21.369-17.329-38.698-38.698-38.698
 			c-7.87,0-15.191,2.382-21.299,6.434C345.456,15.028,298.829,0,248.699,0C111.563,0,0,111.563,0,248.699
 			s111.563,248.699,248.699,248.699s248.699-111.563,248.699-248.699C497.398,188.556,475.923,133.335,440.25,90.287z
 			 M248.699,473.483c-123.935,0-224.784-100.843-224.784-224.784c0-123.935,100.85-224.784,224.784-224.784
 			c44.56,0,86.002,13.201,120.975,35.633c-1.541,4.186-2.511,8.646-2.511,13.358c0,21.375,17.317,38.692,38.687,38.692
 			c6.282,0,12.133-1.641,17.376-4.279c31.364,38.645,50.258,87.835,50.258,141.369C473.483,372.64,372.639,473.483,248.699,473.483z
-			"/>
-	</g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg>
-<!-- 					/SVG -->
+			" />
+                    </g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+            </svg>
+            <!-- 					/SVG -->
 
-					<h4>員工登入</h4>
-					
-					<label for="username">帳號：</label>
-					<input type="text" id="email" name="email" required/>
-					<label for="password">密碼：</label>
-					<input type="password" id="password" name="password" required/>
-					<label><input type="checkbox" id="checkbox"/>Remember me</label>
-					<button type="submit" name="submit">LOGIN</button>
-					
-    </form>
-			</div>
-   
+            <h4>員工登入</h4>
 
-			
+            <label for="username">帳號：</label>
+            <input type="text" id="email" name="email" required />
+            <label for="password">密碼：</label>
+            <input type="password" id="password" name="password" required />
+            <label><input type="checkbox" id="checkbox" />Remember me</label>
+            <button type="submit" name="submit">LOGIN</button>
 
-			
-  </body>
+        </form>
+    </div>
+
+
+
+
+
+</body>
+
 </html>
-
