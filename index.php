@@ -19,7 +19,6 @@ $logoutUrl = $config['routes']['logout'];
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VENDOR_DASHBOARD | 管理後台</title>
-
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
     <link rel="stylesheet" href="dist/css/index.css">

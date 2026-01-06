@@ -1,0 +1,10 @@
+# /api/.htaccess
+RewriteEngine On
+
+# 只允許 API 方法
+RewriteCond %{REQUEST_METHOD} !^(POST|PUT|DELETE|PATCH)$ [NC]
+RewriteRule ^ - [F,L]
+
+# 必須是 AJAX
+RewriteCond %{HTTP:X-Requested-With} !^XMLHttpRequest$ [NC]
+RewriteRule ^ - [F,L]

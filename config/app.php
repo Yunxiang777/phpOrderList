@@ -16,6 +16,9 @@ return [
         'user'   => 'root',
         'pass'   => '',
     ],
+    'api' => [
+        'getAllEmployee' => BASE_PATH . '/api/employee/getAllEmployee.php',
+    ],
     'menuItems' => [
         ['icon' => 'user-tie', 'label' => '員工列表', 'link' => './pages/tables_7/employee.php', 'sub' => '員工管理'],
         ['icon' => 'users', 'label' => '會員列表', 'link' => './pages/tables_7/member.php', 'sub' => '會員管理'],
