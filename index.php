@@ -4,7 +4,11 @@ require_once __DIR__ . '/bootstrap.php';
 // 驗證使用者是否登入
 require_once ROOT_PATH . '/app/auth/auth.php';
 // 確認使用者已登入，否則重定向到登入頁面
+
+// 側邊攔選單項目
+$menuItems = $config['menuItems'];
 ?>
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 
@@ -16,31 +20,7 @@ require_once ROOT_PATH . '/app/auth/auth.php';
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
-    <style>
-        .preloader {
-            background-color: #263038;
-        }
-
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #fff;
-            border-bottom-color: transparent;
-            border-radius: 50%;
-            display: inline-block;
-            animation: rotation 1s linear infinite;
-        }
-
-        @keyframes rotation {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="dist/css/index.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -55,53 +35,51 @@ require_once ROOT_PATH . '/app/auth/auth.php';
             </a>
 
             <div class="sidebar">
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <!-- 登入者 -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
                     <div class="image">
                         <img src="./pages/tables_7/user_image/<?= $_SESSION["avatar"]; ?>"
                             class="img-circle elevation-2" alt="User">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block ml-3"><?= $_SESSION["user"]; ?></a>
+                        <span class="user-name">
+                            <a href="#" class="text-white ml-2"><?= $_SESSION["user"]; ?></a>
+                        </span>
+                        <a href="./pages/login/logOut.php" class="btn btn-outline-light logout-btn border-0" title="登出">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
                     </div>
                 </div>
 
+                <!-- 側邊攔選單 -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                         <?php
-                        $menuItems = [
-                            ['icon' => 'user-tie', 'label' => '員工列表', 'link' => './pages/tables_7/employee.php', 'sub' => '員工管理'],
-                            ['icon' => 'users', 'label' => '會員列表', 'link' => './pages/tables_7/member.php', 'sub' => '會員管理'],
-                            ['icon' => 'utensils', 'label' => '食物管理', 'link' => './pages/table_33/fooddata.php', 'sub' => '食物列表'],
-                            ['icon' => 'box', 'label' => '商品管理', 'link' => './pages/table_Tung/product1.php', 'sub' => '商品檢視'],
-                            ['icon' => 'video', 'label' => '影音管理', 'link' => './pages/tables_Luna/mainpageajax.php', 'sub' => '影音列表'],
-                            ['icon' => 'shopping-cart', 'label' => '訂單管理', 'link' => './pages/table_AYun/realItem_order.php', 'sub' => '商品訂單'],
-                        ];
                         foreach ($menuItems as $item): ?>
                             <li class="nav-item">
                                 <a href="#" class="nav-link"><i class="nav-icon fas fa-<?= $item['icon'] ?>"></i>
                                     <p><?= $item['label'] ?><i class="fas fa-angle-left right"></i></p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    <li class="nav-item"><a href="<?= $item['link'] ?>" class="nav-link"><i
+                                    <li class="nav-item">
+                                        <a href="<?= $item['link'] ?>" class="nav-link"><i
                                                 class="far fa-circle nav-icon"></i>
                                             <p><?= $item['sub'] ?></p>
-                                        </a></li>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         <?php endforeach; ?>
                     </ul>
                 </nav>
-                <a href="./pages/login/logOut.php" class="btn btn-danger btn-block mt-4">登出</a>
             </div>
         </aside>
 
         <div class="content-wrapper">
             <section class="content-header">
                 <div class="container-fluid">
-                    <h1>控制台首頁</h1>
+                    <h1>歡迎回來，<?= $_SESSION["user"]; ?>。</h1>
                 </div>
-            </section>
-            <section class="content">
             </section>
         </div>
     </div>
