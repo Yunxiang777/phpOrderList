@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../bootstrap.php';
+require_once __DIR__ . '/../bootstrap.php';
 
 use App\Core\Database;
 
@@ -53,10 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
 </head>
 
 <body class="hold-transition login-page">
