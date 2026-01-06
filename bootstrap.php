@@ -1,5 +1,10 @@
 <?php
 
+// 確保 Session 已啟動
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // 專案根目錄（ for require ）
 define('ROOT_PATH', dirname(__DIR__) . '/VENDOR_DASHBOARD');
 
