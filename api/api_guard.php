@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-// 全部 API 只 require 這一支
+// 共用資料
 require_once dirname(__DIR__) . '/bootstrap.php';
 
 // 回傳 JSON
