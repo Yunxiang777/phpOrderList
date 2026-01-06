@@ -6,6 +6,7 @@ return [
     ],
     'routes' => [
         'login' => BASE_PATH . '/pages/login.php',
+        'logout' => BASE_PATH . '/app/auth/logout.php',
         'home'  => BASE_PATH,
     ],
     'db' => [

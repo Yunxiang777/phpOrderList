@@ -9,6 +9,7 @@ require_once ROOT_PATH . '/app/auth/auth.php';
 $menuItems = $config['menuItems'];
 $userName = $_SESSION["user"] ?? 'Guest';
 $userAvatar = $_SESSION["avatar"] ?? 'default.png';
+$logoutUrl = $config['routes']['logout'];
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@ $userAvatar = $_SESSION["avatar"] ?? 'default.png';
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <aside class="main-sidebar sidebar-dark-warning elevation-4">
-            <a href="#" class="brand-link text-center">
+            <a href="/" class="brand-link text-center">
                 <img src="./pages/tables_7/user_image/logo.png" alt="Logo" style="width: 80%; opacity: .9;">
             </a>
 
@@ -42,9 +43,13 @@ $userAvatar = $_SESSION["avatar"] ?? 'default.png';
                         <span class="user-name">
                             <a href="#" class="text-white ml-2"><?= $userName; ?></a>
                         </span>
-                        <a href="./pages/login/logOut.php" class="btn btn-outline-light logout-btn border-0" title="登出">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </a>
+                        <form action="<?= $logoutUrl ?>" method="post" class="d-inline">
+                            <button type="submit"
+                                    class="btn btn-outline-light logout-btn border-0"
+                                    title="登出">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
