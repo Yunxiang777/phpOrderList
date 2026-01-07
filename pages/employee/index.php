@@ -193,7 +193,7 @@ $(function () {
     // 新增員工
     function create(data) {
         $.ajax({
-            url: 'employeeInsertApi.php',
+            url: '<?= $config['api']['addEmployee'] ?>',
             type: 'POST',
             data,
             dataType: 'json',
