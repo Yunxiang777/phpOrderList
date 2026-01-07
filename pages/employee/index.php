@@ -2,9 +2,13 @@
 require_once __DIR__ . '/../../bootstrap.php';
 require_once ROOT_PATH . '/app/auth/auth.php';
 
+// CSRF Token
 if (empty($_SESSION['csrf'])) {
     $_SESSION['csrf'] = bin2hex(random_bytes(32));
 }
+
+// 共用參數
+$imgBaseUrl = $config['routes']['img'];
 ?>
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -85,6 +89,7 @@ if (empty($_SESSION['csrf'])) {
     </div>
 </div>
 
+<!-- 員工編輯與新增 Modal -->
 <div class="modal fade" id="modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -96,7 +101,7 @@ if (empty($_SESSION['csrf'])) {
                 <form id="form">
                     <input type="hidden" id="id">
                     <div class="form-group text-center">
-                        <img id="avatar" src="./user_image/avatar.png" class="img-thumbnail" style="width: 120px; cursor: pointer;">
+                        <img id="avatar" src="" class="img-thumbnail" style="width: 120px; cursor: pointer;">
                         <p class="small text-muted">點擊圖片更換</p>
                         <input type="file" id="file" hidden accept="image/*">
                     </div>
@@ -273,7 +278,7 @@ $(function () {
     function reset() {
         $('#form')[0].reset();
         $('#id').val('');
-        $('#avatar').attr('src', './user_image/avatar.png');
+        $('#avatar').attr('src', '<?= "{$imgBaseUrl}/avatar.png" ?>');
     }
 
     // 初始化
