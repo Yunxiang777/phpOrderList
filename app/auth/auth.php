@@ -8,7 +8,7 @@ use App\Core\Database;
 |--------------------------------------------------------------------------
 */
 
-if (!empty($_SESSION['email'])) {
+if (! empty($_SESSION['email'])) {
     return;
 }
 
@@ -20,9 +20,14 @@ if (!empty($_SESSION['email'])) {
 if (! empty($_COOKIE['remember_token'])) {
 
     $email = validateRememberToken();
-
+   
     if ($email !== null) {
+        // Token 有效 → 自動登入
         loginByRememberToken($email);
+        // 取得使用者資料，建立 Session
+        $user = findUserByEmail($email);
+        // 建立完整 Session
+        loginUser($user);
         return;
     }
 
@@ -83,6 +88,41 @@ function loginByRememberToken(string $email): void
 
     // Token Rotation（重要）
     rotateRememberToken();
+}
+
+/*
+|--------------------------------------------------------------------------
+| 建立登入 Session
+|--------------------------------------------------------------------------
+*/
+function loginUser(array $user): void
+{
+    $_SESSION['email']  = $user['email'];
+    $_SESSION['user']   = $user['name'];
+    $_SESSION['avatar'] = $user['avatarname'];
+}
+
+/*
+|--------------------------------------------------------------------------
+| 依 Email 查詢使用者
+|--------------------------------------------------------------------------
+*/
+function findUserByEmail(string $email): ?array
+{
+    $pdo = Database::getInstance();
+
+    $stmt = $pdo->prepare(
+        'SELECT name, avatarname, email, password
+         FROM employee
+         WHERE email = :email
+         LIMIT 1'
+    );
+
+    $stmt->execute(['email' => $email]);
+
+    $user = $stmt->fetch();
+
+    return $user ?: null;
 }
 
 /**
