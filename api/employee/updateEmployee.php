@@ -69,7 +69,7 @@ if (!DateTime::createFromFormat('Y-m-d', $_POST['birthday'])) {
 try {
     // 確認員工是否存在
     $checkStmt = $pdo->prepare(
-        "SELECT avatarname FROM employee WHERE e_id = :id"
+        "SELECT avatarname, password FROM employee WHERE e_id = :id"
     );
     $checkStmt->execute([
         ':id' => $_POST['id']
@@ -132,7 +132,7 @@ try {
             gender = :gender,
             birthday = :birthday,
             role = :role,
-            valid = :valid
+            is_active = :is_active
     ";
     
     $params = [
@@ -142,17 +142,20 @@ try {
         ':gender' => $_POST['gender'],
         ':birthday' => $_POST['birthday'],
         ':role' => $_POST['role'],
-        ':valid' => $_POST['valid'],
+        ':is_active' => $_POST['valid'],
         ':id' => $_POST['id'],
     ];
     
     // 若有傳密碼才更新
     if (!empty($_POST['password'])) {
-        $sql .= ", password = :password";
-        $params[':password'] = password_hash(
-            $_POST['password'],
-            PASSWORD_DEFAULT
-        );
+        // 只有在密碼不同時才更新
+        if (!password_verify($_POST['password'], $currentEmployee['password'])) {
+            $sql .= ", password = :password";
+            $params[':password'] = password_hash(
+                $_POST['password'],
+                PASSWORD_DEFAULT
+            );
+        }
     }
     
     $sql .= " WHERE e_id = :id";
@@ -167,7 +170,7 @@ try {
     
 } catch (Throwable $e) {
     $output['errorMessage'] = '系統錯誤,請稍後再試';
-    // error_log($e->getMessage());
+    //error_log($e->getMessage());
 }
 
 // -------------------------------------------------

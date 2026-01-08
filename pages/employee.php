@@ -133,6 +133,7 @@ $api = $config['api'];
 <script>
 $(function () {
     const csrf = '<?= $_SESSION['csrf'] ?>';
+    const imgBaseUrl = '<?= htmlspecialchars($imgBaseUrl) ?>';
     const table = $('#table').DataTable({
         responsive: true,
         language: { url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json" }
@@ -201,8 +202,6 @@ $(function () {
             error: handleError
         });
     }
-
-
 
     // 更新員工
     function update(data) {
@@ -287,7 +286,10 @@ $(function () {
                 $('#name').val(emp.name);
                 $('#email').val(emp.email);
                 $('#valid').val(emp.is_active);
-                $('#password').val('');
+                $('#password').val(emp.password);
+                $('#avatar').attr('src', imgBaseUrl + '/employee/avatar/' + emp.avatarname);
+                $('#role').val(emp.role);
+                $('#birthday').val(emp.birthday);
                 $('#modalTitle').text('編輯員工');
                 $('#modal').modal('show');
             },

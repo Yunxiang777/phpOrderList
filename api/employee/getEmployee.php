@@ -39,7 +39,12 @@ $sql = "
         e_id,
         name,
         email,
-        is_active
+        gender,
+        birthday,
+        role, 
+        avatarname,
+        is_active,
+        password
     FROM employee
     WHERE e_id = :id
     LIMIT 1

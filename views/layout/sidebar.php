@@ -5,15 +5,15 @@
 ?>
 
 <aside class="main-sidebar sidebar-dark-warning elevation-4">
-    <a href="/" class="brand-link text-center">
-        <img src="./pages/tables_7/user_image/logo.png" alt="Logo" style="width: 80%; opacity: .9;">
+    <a href="<?= htmlspecialchars($config['app']['base_url']) ?>" class="brand-link text-center">
+        <img src="<?= htmlspecialchars($config['routes']['img']) . '/Logo.png' ?>" alt="Logo" style="width: 20%;">
     </a>
 
     <div class="sidebar">
         <!-- 登入者 -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
             <div class="image">
-                <img src="./pages/tables_7/user_image/<?= htmlspecialchars($_SESSION['avatarname']) ?>"
+                <img src="<?= htmlspecialchars($config['routes']['img'] . '/employee/avatar/' . $_SESSION['avatarname']) ?>"
                      class="img-circle elevation-2" alt="User">
             </div>
             <div class="info d-flex align-items-center">

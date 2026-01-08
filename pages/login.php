@@ -83,11 +83,11 @@ function findUserByEmail(string $email): ?array
 | 驗證密碼（目前為明文）
 |--------------------------------------------------------------------------
 */
-function verifyPassword(string $input, string $stored): bool
+function verifyPassword(string $input, string $hash): bool
 {
-    // 之後可直接換成 password_verify()
-    return $input === $stored;
+    return password_verify($input, $hash);
 }
+
 
 /*
 |--------------------------------------------------------------------------
