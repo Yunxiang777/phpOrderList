@@ -21,6 +21,7 @@ return [
         'getAllEmployee' => BASE_PATH . '/api/employee/getAllEmployee.php',
         'addEmployee'    => BASE_PATH . '/api/employee/addEmployee.php',
         'updateEmployee' => BASE_PATH . '/api/employee/updateEmployee.php',
+        'getEmployee'    => BASE_PATH . '/api/employee/getEmployee.php',
     ],
     'menuItems' => [
         ['icon' => 'user-tie', 'label' => '員工列表', 'link' => './pages/tables_7/employee.php', 'sub' => '員工管理'],

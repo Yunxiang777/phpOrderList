@@ -15,9 +15,7 @@ $imgBaseUrl = $config['routes']['img'];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="<?= htmlspecialchars($_SESSION['csrf']) ?>">
     <title>員工管理</title>
-    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
@@ -58,6 +56,7 @@ $imgBaseUrl = $config['routes']['img'];
                 <h1>員工管理系統</h1>
             </div>
         </section>
+        <!-- 員工列表 -->
         <section class="content">
             <div class="container-fluid">
                 <div class="card">
@@ -158,7 +157,7 @@ $imgBaseUrl = $config['routes']['img'];
 <script src="../../dist/js/adminlte.min.js"></script>
 <script>
 $(function () {
-    const csrf = $('meta[name="csrf-token"]').attr('content');
+    const csrf = '<?= $_SESSION['csrf'] ?>';
     const table = $('#table').DataTable({
         responsive: true,
         language: { url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json" }
@@ -175,10 +174,16 @@ $(function () {
                 table.clear();
                 data.forEach(item => {
                     table.row.add([
-                        item.e_id + (item.is_active == 1 ? ' (啟用)' : ' (停用)'),
+                        `<a href="javascript:void(0)"
+                            class="edit"
+                            data-id="${item.e_id}">
+                            ${item.e_id}
+                            <span class="badge ${item.is_active == 1 ? 'bg-success' : 'bg-secondary'}">
+                                ${item.is_active == 1 ? '啟用' : '停用'}
+                            </span>
+                        </a>`,
                         item.name,
-                        item.email,
-//                        `<button class="btn btn-sm btn-success edit" data-id="${item.e_id}"><i class="fas fa-edit"></i></button>`
+                        item.email
                     ]);
                 });
                 table.draw();
@@ -288,25 +293,30 @@ $(function () {
         $('#modal').modal('show');
     });
 
-    // 編輯按鈕
-    $('#table').on('click', '.edit', function() {
-        const data = table.row($(this).parents('tr')).data();
-        $('#id').val(data[0]);
-        $('#name').val(data[1]);
-        $('#avatar').attr('src', $(data[2]).attr('src'));
-        $('#email').val(data[3]);
-        $('#gender').val(data[4]);
-        $('#birthday').val(data[5]);
-        $('#role').val(data[6]);
-        $('#valid').val(data[7]);
-        $('#password').val('');
-        $('#modalTitle').text('編輯員工');
-        $('#modal').modal('show');
-    });
-
-    // 刪除按鈕
-    $('#table').on('click', '.disable-btn', function() {
-        disable($(this).data('id'));
+    // 編輯員工
+    $('#table').on('click', '.edit', function () {
+        const id = $(this).data('id');
+        $.ajax({
+            url: '<?= $config['api']['getEmployee'] ?>',
+            type: 'POST',
+            data: { id, csrf },
+            dataType: 'json',
+            success: function (res) {
+                if (!res.success) {
+                    Swal.fire('錯誤', res.errorMessage || '讀取失敗', 'error');
+                    return;
+                }
+                const emp = res.data;
+                $('#id').val(emp.e_id);
+                $('#name').val(emp.name);
+                $('#email').val(emp.email);
+                $('#valid').val(emp.is_active);
+                $('#password').val('');
+                $('#modalTitle').text('編輯員工');
+                $('#modal').modal('show');
+            },
+            error: handleError
+        });
     });
 
     // 儲存按鈕
