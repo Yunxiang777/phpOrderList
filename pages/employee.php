@@ -286,7 +286,7 @@ $(function () {
                 $('#name').val(emp.name);
                 $('#email').val(emp.email);
                 $('#valid').val(emp.is_active);
-                $('#password').val(emp.password);
+                $('#password').val('');
                 $('#avatar').attr('src', imgBaseUrl + '/employee/avatar/' + emp.avatarname);
                 $('#role').val(emp.role);
                 $('#birthday').val(emp.birthday);

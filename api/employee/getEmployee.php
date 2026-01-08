@@ -43,8 +43,7 @@ $sql = "
         birthday,
         role, 
         avatarname,
-        is_active,
-        password
+        is_active
     FROM employee
     WHERE e_id = :id
     LIMIT 1
