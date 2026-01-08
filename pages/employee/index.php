@@ -77,6 +77,7 @@ $imgBaseUrl = $config['routes']['img'];
                                     <th>性別</th>
                                     <th>生日</th>
                                     <th>負責事項</th>
+                                    <th>狀態</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -138,6 +139,13 @@ $imgBaseUrl = $config['routes']['img'];
                         <label>負責事項</label>
                         <input type="text" class="form-control" id="role">
                     </div>
+                    <div class="form-group">
+                        <label>帳號狀態</label>
+                        <select class="form-control" id="valid">
+                            <option value="1">啟用</option>
+                            <option value="0">停用</option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -170,6 +178,8 @@ $(function () {
             dataType: 'json',
             data: { csrf },
             success: function (data) {
+                console.log(data);
+                
                 table.clear();
                 data.forEach(item => {
                     table.row.add([
@@ -180,8 +190,8 @@ $(function () {
                         item.gender,
                         item.birthday,
                         item.role,
-                        `<button class="btn btn-sm btn-success edit" data-id="${item.e_id}"><i class="fas fa-edit"></i></button>
-                         <button class="btn btn-sm btn-danger del" data-id="${item.e_id}"><i class="fas fa-trash"></i></button>`
+                        item.is_active == 1 ? '啟用' : '停用',
+                        `<button class="btn btn-sm btn-success edit" data-id="${item.e_id}"><i class="fas fa-edit"></i></button>`
                     ]);
                 });
                 table.draw();
@@ -213,7 +223,7 @@ $(function () {
     // 更新員工
     function update(data) {
         $.ajax({
-            url: 'employeeUpdateApi.php',
+            url: '<?= $config['api']['updateEmployee'] ?>',
             type: 'POST',
             data,
             dataType: 'json',
@@ -230,29 +240,29 @@ $(function () {
         });
     }
 
-    // 刪除員工
-    function del(id) {
+    // 停用員工
+    function disable(id) {
         Swal.fire({
-            title: '確認刪除?',
-            text: "此操作無法復原",
+            title: '確認停用?',
+            text: "該員工將無法登入系統",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            confirmButtonText: '確認刪除',
+            confirmButtonColor: '#ffc107', // 警告色
+            confirmButtonText: '確認停用',
             cancelButtonText: '取消'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: 'employeeDeleteApi.php',
+                    url: 'employeeDisableApi.php', // 指向剛才建立的 API
                     type: 'POST',
                     data: { csrf, id },
                     dataType: 'json',
                     success: function (res) {
                         if (res.success) {
-                            Swal.fire('已刪除', '員工已刪除', 'success');
-                            load();
+                            Swal.fire('已停用', '員工帳號已停用', 'success');
+                            load(); // 重新整理表格
                         } else {
-                            Swal.fire('錯誤', res.errorMessage || '刪除失敗', 'error');
+                            Swal.fire('錯誤', res.errorMessage || '停用失敗', 'error');
                         }
                     },
                     error: handleError
@@ -301,14 +311,15 @@ $(function () {
         $('#gender').val(data[4]);
         $('#birthday').val(data[5]);
         $('#role').val(data[6]);
+        $('#valid').val(data[7]);
         $('#password').val('');
         $('#modalTitle').text('編輯員工');
         $('#modal').modal('show');
     });
 
     // 刪除按鈕
-    $('#table').on('click', '.del', function() {
-        del($(this).data('id'));
+    $('#table').on('click', '.disable-btn', function() {
+        disable($(this).data('id'));
     });
 
     // 儲存按鈕
@@ -323,6 +334,7 @@ $(function () {
             gender: $('#gender').val(),
             birthday: $('#birthday').val(),
             role: $('#role').val(),
+            valid: $('#valid').val(),
             avatarname: $('#file')[0].files[0]?.name || $('#avatar').attr('src').split('/').pop()
         };
         id ? update(data) : create(data);

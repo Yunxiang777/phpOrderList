@@ -1002,3 +1002,8 @@ CREATE TABLE remember_tokens (
     INDEX (token_hash),
     INDEX (user_email)
 );
+
+/-- 在 employee 資料表新增 is_active 欄位
+ALTER TABLE employee
+ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1
+COMMENT '是否啟用：1=啟用，0=停用';
