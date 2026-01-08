@@ -8,7 +8,7 @@ use App\Core\Database;
 
 $pdo = Database::getInstance();
 
-$sql = "SELECT * FROM employee";
+$sql = "SELECT e_id, name, email, is_active FROM employee";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 

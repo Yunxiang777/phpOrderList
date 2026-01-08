@@ -70,15 +70,9 @@ $imgBaseUrl = $config['routes']['img'];
                         <table id="table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>工號</th>
                                     <th>姓名</th>
-                                    <th>頭貼</th>
                                     <th>Email</th>
-                                    <th>性別</th>
-                                    <th>生日</th>
-                                    <th>負責事項</th>
-                                    <th>狀態</th>
-                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -178,20 +172,13 @@ $(function () {
             dataType: 'json',
             data: { csrf },
             success: function (data) {
-                console.log(data);
-                
                 table.clear();
                 data.forEach(item => {
                     table.row.add([
-                        item.e_id,
+                        item.e_id + (item.is_active == 1 ? ' (啟用)' : ' (停用)'),
                         item.name,
-                        `<img src="/VENDOR_DASHBOARD/user_image/${item.avatarname}" style="height:50px">`,
                         item.email,
-                        item.gender,
-                        item.birthday,
-                        item.role,
-                        item.is_active == 1 ? '啟用' : '停用',
-                        `<button class="btn btn-sm btn-success edit" data-id="${item.e_id}"><i class="fas fa-edit"></i></button>`
+//                        `<button class="btn btn-sm btn-success edit" data-id="${item.e_id}"><i class="fas fa-edit"></i></button>`
                     ]);
                 });
                 table.draw();
