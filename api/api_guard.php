@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // 是否登入
-if (empty($_SESSION['user'])) {
+if (empty($_SESSION['name'])) {
     http_response_code(401);
     echo json_encode(['error' => 'Unauthorized']);
     exit;

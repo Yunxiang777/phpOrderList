@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../bootstrap.php';
+require_once __DIR__ . '/../bootstrap.php';
 require_once ROOT_PATH . '/app/auth/auth.php';
 
 // CSRF Token
@@ -9,6 +9,7 @@ if (empty($_SESSION['csrf'])) {
 
 // 共用參數
 $imgBaseUrl = $config['routes']['img'];
+$api = $config['api'];
 ?>
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -16,39 +17,13 @@ $imgBaseUrl = $config['routes']['img'];
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>員工管理</title>
-    <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <?php include ROOT_PATH . '/views/layout/commonCss.php'; //共用css ?>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-    <aside class="main-sidebar sidebar-dark-warning elevation-4">
-        <a href="../../index.php" class="brand-link text-center">
-            <img src="./user_image/logo.png" alt="Logo" style="width: 80%; opacity: .9;">
-        </a>
-        <div class="sidebar">
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                    <img src="../tables_7/user_image/<?= $_SESSION["avatar"] ?>" class="img-circle elevation-2" alt="User">
-                </div>
-                <div class="info">
-                    <a href="#" class="d-block ml-3"><?= $_SESSION["user"] ?></a>
-                </div>
-            </div>
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column">
-                    <li class="nav-item">
-                        <a href="employee.php" class="nav-link active">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>員工列表</p>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="user-panel mt-3 text-center">
-                <a href="../login/logOut.php" class="btn btn-danger btn-sm w-100">登出</a>
-            </div>
-        </div>
-    </aside>
+
+    <?php include ROOT_PATH . '/views/layout/sidebar.php'; // 側邊攔選單項目?>
 
     <div class="content-wrapper">
         <section class="content-header">
@@ -61,6 +36,7 @@ $imgBaseUrl = $config['routes']['img'];
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
+                        <!-- 新增員工 -->
                         <button type="button" class="btn btn-primary" id="btnAdd">
                             <i class="fas fa-plus-circle"></i> 新增員工
                         </button>
@@ -149,12 +125,11 @@ $imgBaseUrl = $config['routes']['img'];
     </div>
 </div>
 
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/sweetalert2/sweetalert2.all.min.js"></script>
-<script src="../../dist/js/adminlte.min.js"></script>
+<?php include ROOT_PATH . '/views/layout/commonJs.php'; //共用js ?>
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../plugins/sweetalert2/sweetalert2.all.min.js"></script>
 <script>
 $(function () {
     const csrf = '<?= $_SESSION['csrf'] ?>';
@@ -163,10 +138,10 @@ $(function () {
         language: { url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json" }
     });
 
-    // 讀取員工資料
+    // 讀取所有員工資料
     function load() {
         $.ajax({
-            url: '<?= $config['api']['getAllEmployee'] ?>',
+            url: '<?= $api['getAllEmployee'] ?>',
             type: 'POST',
             dataType: 'json',
             data: { csrf },
@@ -194,10 +169,25 @@ $(function () {
 
     // 新增員工
     function create(data) {
+        const formData = new FormData();
+        
+        // 添加所有表單資料
+        Object.keys(data).forEach(key => {
+            formData.append(key, data[key]);
+        });
+        
+        // 添加圖片檔案
+        const fileInput = $('#file')[0];
+        if (fileInput.files[0]) {
+            formData.append('avatar', fileInput.files[0]);
+        }
+        
         $.ajax({
-            url: '<?= $config['api']['addEmployee'] ?>',
+            url: '<?= $api['addEmployee'] ?>',
             type: 'POST',
-            data,
+            data: formData,
+            processData: false,
+            contentType: false,
             dataType: 'json',
             success: function (res) {
                 if (res.success) {
@@ -212,12 +202,29 @@ $(function () {
         });
     }
 
+
+
     // 更新員工
     function update(data) {
+        const formData = new FormData();
+        
+        // 添加所有表單資料
+        Object.keys(data).forEach(key => {
+            formData.append(key, data[key]);
+        });
+        
+        // 添加圖片檔案（如果有選擇新圖片）
+        const fileInput = $('#file')[0];
+        if (fileInput.files[0]) {
+            formData.append('avatar', fileInput.files[0]);
+        }
+        
         $.ajax({
             url: '<?= $config['api']['updateEmployee'] ?>',
             type: 'POST',
-            data,
+            data: formData,
+            processData: false,
+            contentType: false,
             dataType: 'json',
             success: function (res) {
                 if (res.success) {
@@ -229,37 +236,6 @@ $(function () {
                 }
             },
             error: handleError
-        });
-    }
-
-    // 停用員工
-    function disable(id) {
-        Swal.fire({
-            title: '確認停用?',
-            text: "該員工將無法登入系統",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ffc107', // 警告色
-            confirmButtonText: '確認停用',
-            cancelButtonText: '取消'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: 'employeeDisableApi.php', // 指向剛才建立的 API
-                    type: 'POST',
-                    data: { csrf, id },
-                    dataType: 'json',
-                    success: function (res) {
-                        if (res.success) {
-                            Swal.fire('已停用', '員工帳號已停用', 'success');
-                            load(); // 重新整理表格
-                        } else {
-                            Swal.fire('錯誤', res.errorMessage || '停用失敗', 'error');
-                        }
-                    },
-                    error: handleError
-                });
-            }
         });
     }
 
@@ -319,9 +295,22 @@ $(function () {
         });
     });
 
-    // 儲存按鈕
+    // 儲存或新增按鈕
     $('#btnSave').click(function() {
         const id = $('#id').val();
+        const fileInput = $('#file')[0];
+        let avatarname = '';
+        
+        // 如果有選擇新檔案，使用 UUID 重新命名
+        if (fileInput.files[0]) {
+            const originalFile = fileInput.files[0];
+            const fileExtension = originalFile.name.split('.').pop();
+            avatarname = `${generateUUID()}.${fileExtension}`;
+        } else {
+            // 沒有新檔案，保留原有檔名
+            avatarname = $('#avatar').attr('src').split('/').pop();
+        }
+        
         const data = {
             csrf,
             id,
@@ -332,12 +321,14 @@ $(function () {
             birthday: $('#birthday').val(),
             role: $('#role').val(),
             valid: $('#valid').val(),
-            avatarname: $('#file')[0].files[0]?.name || $('#avatar').attr('src').split('/').pop()
+            avatarname: avatarname
         };
+        
+        // 有id則更新，無則新增
         id ? update(data) : create(data);
     });
 
-    // 圖片預覽
+    // 圖片預覽處理
     $('#avatar').click(() => $('#file').click());
     $('#file').change(function(e) {
         const file = e.target.files[0];
@@ -350,6 +341,16 @@ $(function () {
 
     // Modal關閉重置
     $('#modal').on('hidden.bs.modal', reset);
+
+    // UUID v4 生成函數
+    function generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+    
 });
 </script>
 </body>

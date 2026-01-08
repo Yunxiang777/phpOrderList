@@ -99,8 +99,8 @@ function loginUser(array $user): void
     session_regenerate_id(true);
 
     $_SESSION['email']  = $user['email'];
-    $_SESSION['user']   = $user['name'];
-    $_SESSION['avatar'] = $user['avatarname'];
+    $_SESSION['name']   = $user['name'];
+    $_SESSION['avatarname'] = $user['avatarname'];
 }
 
 /*
