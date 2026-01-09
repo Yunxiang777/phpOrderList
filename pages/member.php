@@ -302,7 +302,7 @@ $(function () {
         }
         
         $.ajax({
-            url: 'memberUpdateApi.php',
+            url: '<?= $api['updateMember'] ?>',
             type: 'POST',
             data: formData,
             processData: false,

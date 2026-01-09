@@ -25,6 +25,7 @@ return [
         'getAllMember'   => BASE_PATH . '/api/member/getAllMember.php',
         'addMember'      => BASE_PATH . '/api/member/addMember.php',
         'getMember'     => BASE_PATH . '/api/member/getMember.php',
+        'updateMember'   => BASE_PATH . '/api/member/updateMember.php',
     ],
     'menuItems' => [
         ['icon' => 'user-tie', 'label' => '員工列表', 'link' => BASE_PATH . '/pages/employee.php', 'sub' => '員工管理'],
