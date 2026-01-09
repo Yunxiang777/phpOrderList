@@ -5,8 +5,9 @@ require_once ROOT_PATH . '/app/auth/auth.php';
 // CSRF Token
 if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(32));
 
-// 配置參數
-$imgBaseUrl = './user_image';
+// 共用參數
+$imgBaseUrl = $config['routes']['img'];
+$api = $config['api'];
 ?>
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -18,11 +19,11 @@ $imgBaseUrl = './user_image';
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
     <!-- DataTables -->
-    <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
     <?php include ROOT_PATH . '/views/layout/commonCss.php'; //共用css ?>
@@ -30,39 +31,34 @@ $imgBaseUrl = './user_image';
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-
     <?php include ROOT_PATH . '/views/layout/sidebar.php'; // 側邊攔選單項目?>
 
-    <!-- Content Wrapper -->
     <div class="content-wrapper">
-        <!-- Content Header -->
+        <!-- 主題 -->
         <section class="content-header">
             <div class="container-fluid">
                 <h1>會員管理系統</h1>
             </div>
         </section>
 
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="card">
+                    <!-- 新增會員 -->
                     <div class="card-header">
                         <button type="button" class="btn btn-primary" id="btnAdd">
                             <i class="fas fa-plus-circle"></i> 新增會員
                         </button>
                     </div>
+                    <!-- 會員列表 -->
                     <div class="card-body">
                         <table id="memberTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>會員編號</th>
                                     <th>姓名</th>
-                                    <th>頭貼</th>
                                     <th>Email</th>
-                                    <th>性別</th>
-                                    <th>生日</th>
                                     <th>手機</th>
-                                    <th>地址</th>
                                     <th>訂閱狀態</th>
                                     <th>帳號狀態</th>
                                     <th>操作</th>
@@ -75,9 +71,6 @@ $imgBaseUrl = './user_image';
             </div>
         </section>
     </div>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
 
 <!-- 會員編輯與新增 Modal -->
@@ -185,14 +178,14 @@ $imgBaseUrl = './user_image';
 
 <?php include ROOT_PATH . '/views/layout/commonJs.php'; //共用js ?>
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <!-- AdminLTE -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../dist/js/adminlte.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -206,56 +199,56 @@ $(function () {
         responsive: true,
         language: { 
             url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json" 
-        },
-        columnDefs: [
-            { orderable: false, targets: [2, 10] } // 頭貼和操作列不排序
-        ]
+        }
     });
 
     // 讀取所有會員資料
     function load() {
-        $.ajax({
-            url: 'memberSelectApi.php',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                table.clear();
-                data.forEach(item => {
-                    const statusBadge = item.帳號是否啟動 == 1 
-                        ? '<span class="badge bg-success">啟用</span>' 
-                        : '<span class="badge bg-secondary">停用</span>';
-                    
-                    const subscribeBadge = item.subscribe == 1 
-                        ? '<span class="badge bg-info">已訂閱</span>' 
-                        : '<span class="badge bg-light text-dark">未訂閱</span>';
-                    
-                    table.row.add([
-                        `<a href="javascript:void(0)" class="edit" data-id="${item.MemberID}">
-                            ${item.MemberID}
-                        </a>`,
-                        item.name,
-                        `<img src="${imgBaseUrl}/${item.avatarname}" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">`,
-                        item.email,
-                        item.gender || '-',
-                        item.birthday || '-',
-                        item.phone_number || '-',
-                        item.address || '-',
-                        subscribeBadge,
-                        statusBadge,
-                        `<div class="btn-group">
-                            <button class="btn btn-sm btn-info edit" data-id="${item.MemberID}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-danger delete" data-id="${item.MemberID}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>`
-                    ]);
-                });
-                table.draw();
-            },
-            error: handleError
-        });
+      $.ajax({
+          url: '<?= $api['getAllMember'] ?>',
+          type: 'POST',
+          data: { csrf },
+          dataType: 'json',
+          success(data) {
+              table.clear();
+              data.forEach(item => {
+                  const badge = (cond, on, off) =>
+                      `<span class="badge ${cond ? on.cls : off.cls}">
+                          ${cond ? on.text : off.text}
+                      </span>`;
+                  table.row.add([
+                      `<a href="javascript:void(0)" class="edit" data-id="${item.MemberID}">
+                          ${item.MemberID}
+                      </a>`,
+                      item.name,
+                      item.email,
+                      item.phone_number ?? '-',
+                      badge(
+                          item.subscribe == 1,
+                          { cls: 'bg-info', text: '已訂閱' },
+                          { cls: 'bg-light text-dark', text: '未訂閱' }
+                      ),
+                      badge(
+                          item.帳號是否啟動 == 1,
+                          { cls: 'bg-success', text: '啟用' },
+                          { cls: 'bg-secondary', text: '停用' }
+                      ),
+                      `
+                      <div class="btn-group">
+                          <button class="btn btn-sm btn-info edit" data-id="${item.MemberID}">
+                              <i class="fas fa-edit"></i>
+                          </button>
+                          <button class="btn btn-sm btn-danger delete" data-id="${item.MemberID}">
+                              <i class="fas fa-trash-alt"></i>
+                          </button>
+                      </div>
+                      `
+                  ]);
+              });
+              table.draw();
+          },
+          error: handleError
+      });
     }
 
     // 新增會員
@@ -274,7 +267,7 @@ $(function () {
         }
         
         $.ajax({
-            url: 'memberInsertApi.php',
+            url: '<?= $api['addMember'] ?>',
             type: 'POST',
             data: formData,
             processData: false,
@@ -406,32 +399,27 @@ $(function () {
         const id = $(this).data('id');
         
         $.ajax({
-            url: 'memberSelectApi.php',
-            type: 'GET',
+            url: '<?= $api['getMember'] ?>',
+            type: 'POST',
+            data: { id, csrf },
             dataType: 'json',
             success: function (data) {
-                const member = data.find(m => m.MemberID == id);
-                
-                if (!member) {
-                    Swal.fire('錯誤', '找不到會員資料', 'error');
-                    return;
-                }
-                
-                $('#id').val(member.MemberID);
-                $('#name').val(member.name);
-                $('#email').val(member.email);
-                $('#password').val('');
-                $('#gender').val(member.gender || '男');
-                $('#birthday').val(member.birthday || '');
-                $('#phone_number').val(member.phone_number || '');
-                $('#address').val(member.address || '');
-                $('#subscribe').val(member.subscribe || '0');
-                $('#active').val(member.帳號是否啟動 || '1');
-                $('#avatar').attr('src', `${imgBaseUrl}/${member.avatarname}`);
-                
-                $('#modalTitle').text('編輯會員');
-                $('#password').attr('placeholder', '留空則不修改');
-                $('#modal').modal('show');
+              const member = data.data;
+              $('#id').val(member.MemberID);
+              $('#name').val(member.name);
+              $('#email').val(member.email);
+              $('#password').val('');
+              $('#gender').val(member.gender || '男');
+              $('#birthday').val(member.birthday || '');
+              $('#phone_number').val(member.phone_number || '');
+              $('#address').val(member.address || '');
+              $('#subscribe').val(member.subscribe || '0');
+              $('#active').val(member.帳號是否啟動 || '1');
+              $('#avatar').attr('src', `${imgBaseUrl}/member/avatar/${member.avatarname}`);
+              
+              $('#modalTitle').text('編輯會員');
+              $('#password').attr('placeholder', '留空則不修改');
+              $('#modal').modal('show');
             },
             error: handleError
         });
@@ -485,7 +473,6 @@ $(function () {
 
     // 圖片預覽處理
     $('#avatar').click(() => $('#file').click());
-    
     $('#file').change(function(e) {
         const file = e.target.files[0];
         if (file) {
