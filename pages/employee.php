@@ -3,9 +3,7 @@ require_once __DIR__ . '/../bootstrap.php';
 require_once ROOT_PATH . '/app/auth/auth.php';
 
 // CSRF Token
-if (empty($_SESSION['csrf'])) {
-    $_SESSION['csrf'] = bin2hex(random_bytes(32));
-}
+if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(32));
 
 // 共用參數
 $imgBaseUrl = $config['routes']['img'];
@@ -17,7 +15,7 @@ $api = $config['api'];
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>員工管理</title>
-    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <?php include ROOT_PATH . '/views/layout/commonCss.php'; //共用css ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -126,10 +124,10 @@ $api = $config['api'];
 </div>
 
 <?php include ROOT_PATH . '/views/layout/commonJs.php'; //共用js ?>
-<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="<?= BASE_PATH ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= BASE_PATH ?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= BASE_PATH ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= BASE_PATH ?>/plugins/sweetalert2/sweetalert2.all.min.js"></script>
 <script>
 $(function () {
     const csrf = '<?= $_SESSION['csrf'] ?>';

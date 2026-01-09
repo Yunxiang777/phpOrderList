@@ -15,17 +15,7 @@ $api = $config['api'];
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>會員管理</title>
-    
-    <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <?php include ROOT_PATH . '/views/layout/commonCss.php'; //共用css ?>
 </head>
 
@@ -61,7 +51,6 @@ $api = $config['api'];
                                     <th>手機</th>
                                     <th>訂閱狀態</th>
                                     <th>帳號狀態</th>
-                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -177,17 +166,10 @@ $api = $config['api'];
 </div>
 
 <?php include ROOT_PATH . '/views/layout/commonJs.php'; //共用js ?>
-<!-- jQuery -->
-<script src="../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables -->
-<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- AdminLTE -->
-<script src="../dist/js/adminlte.min.js"></script>
-<!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<?= BASE_PATH ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= BASE_PATH ?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= BASE_PATH ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= BASE_PATH ?>/plugins/sweetalert2/sweetalert2.all.min.js"></script>
 
 <script>
 $(function () {
@@ -232,17 +214,7 @@ $(function () {
                           item.帳號是否啟動 == 1,
                           { cls: 'bg-success', text: '啟用' },
                           { cls: 'bg-secondary', text: '停用' }
-                      ),
-                      `
-                      <div class="btn-group">
-                          <button class="btn btn-sm btn-info edit" data-id="${item.MemberID}">
-                              <i class="fas fa-edit"></i>
-                          </button>
-                          <button class="btn btn-sm btn-danger delete" data-id="${item.MemberID}">
-                              <i class="fas fa-trash-alt"></i>
-                          </button>
-                      </div>
-                      `
+                      )
                   ]);
               });
               table.draw();
@@ -321,38 +293,6 @@ $(function () {
         });
     }
 
-    // 刪除會員
-    function deleteMember(id) {
-        Swal.fire({
-            title: '確定刪除?',
-            text: "此操作無法復原！",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: '確定刪除',
-            cancelButtonText: '取消'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: 'memberDeleteApi.php',
-                    type: 'GET',
-                    data: { id: id },
-                    dataType: 'json',
-                    success: function (res) {
-                        if (res.success) {
-                            Swal.fire('刪除成功', '會員已被刪除', 'success');
-                            load();
-                        } else {
-                            Swal.fire('錯誤', res.errorMessage || '刪除失敗', 'error');
-                        }
-                    },
-                    error: handleError
-                });
-            }
-        });
-    }
-
     // 錯誤處理
     function handleError(xhr) {
         const msg = {
@@ -423,12 +363,6 @@ $(function () {
             },
             error: handleError
         });
-    });
-
-    // 刪除會員
-    $('#memberTable').on('click', '.delete', function () {
-        const id = $(this).data('id');
-        deleteMember(id);
     });
 
     // 儲存按鈕
