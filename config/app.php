@@ -36,13 +36,18 @@ return [
         'updateProduct'  => BASE_PATH . '/api/product/updateProduct.php',
         'getProduct'     => BASE_PATH . '/api/product/getProduct.php',
         'deleteProduct'  => BASE_PATH . '/api/product/deleteProduct.php',
+        'getAllVideo'    => BASE_PATH . '/api/video/getAllVideo.php',
+        'addVideo'       => BASE_PATH . '/api/video/addVideo.php',
+        'updateVideo'    => BASE_PATH . '/api/video/updateVideo.php',
+        'getVideo'       => BASE_PATH . '/api/video/getVideo.php',
+        'deleteVideo'    => BASE_PATH . '/api/video/deleteVideo.php',
     ],
     'menuItems' => [
         ['icon' => 'user-tie', 'label' => '員工列表', 'link' => BASE_PATH . '/pages/employee.php', 'sub' => '員工管理'],
         ['icon' => 'users', 'label' => '會員列表', 'link' => BASE_PATH . '/pages/member.php', 'sub' => '會員管理'],
         ['icon' => 'utensils', 'label' => '食物管理', 'link' => BASE_PATH . '/pages/fooddata.php', 'sub' => '食物列表'],
         ['icon' => 'box', 'label' => '商品管理', 'link' => BASE_PATH . '/pages/product.php', 'sub' => '商品檢視'],
-        ['icon' => 'video', 'label' => '影音管理', 'link' => BASE_PATH . '/pages/tables_Luna/mainpageajax.php', 'sub' => '影音列表'],
+        ['icon' => 'video', 'label' => '影音管理', 'link' => BASE_PATH . '/pages/video.php', 'sub' => '影音列表'],
         ['icon' => 'shopping-cart', 'label' => '訂單管理', 'link' => BASE_PATH . '/pages/table_AYun/realItem_order.php', 'sub' => '商品訂單'],
     ]
 ];
