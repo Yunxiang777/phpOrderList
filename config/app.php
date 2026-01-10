@@ -41,13 +41,73 @@ return [
         'updateVideo'    => BASE_PATH . '/api/video/updateVideo.php',
         'getVideo'       => BASE_PATH . '/api/video/getVideo.php',
         'deleteVideo'    => BASE_PATH . '/api/video/deleteVideo.php',
+        'getAllProductOrder' => BASE_PATH . '/api/order/product/getAllProductOrder.php',
+        'productOrderGetDetails'    => BASE_PATH . '/api/order/product/orderGetDetails.php',
     ],
     'menuItems' => [
-        ['icon' => 'user-tie', 'label' => '員工列表', 'link' => BASE_PATH . '/pages/employee.php', 'sub' => '員工管理'],
-        ['icon' => 'users', 'label' => '會員列表', 'link' => BASE_PATH . '/pages/member.php', 'sub' => '會員管理'],
-        ['icon' => 'utensils', 'label' => '食物管理', 'link' => BASE_PATH . '/pages/fooddata.php', 'sub' => '食物列表'],
-        ['icon' => 'box', 'label' => '商品管理', 'link' => BASE_PATH . '/pages/product.php', 'sub' => '商品檢視'],
-        ['icon' => 'video', 'label' => '影音管理', 'link' => BASE_PATH . '/pages/video.php', 'sub' => '影音列表'],
-        ['icon' => 'shopping-cart', 'label' => '訂單管理', 'link' => BASE_PATH . '/pages/table_AYun/realItem_order.php', 'sub' => '商品訂單'],
+        [
+            'icon' => 'user-tie',
+            'label' => '員工列表',
+            'children' => [
+                [
+                    'label' => '員工管理',
+                    'link'  => BASE_PATH . '/pages/employee.php'
+                ]
+            ]
+        ],
+        [
+            'icon' => 'users',
+            'label' => '會員列表',
+            'children' => [
+                [
+                    'label' => '會員管理',
+                    'link'  => BASE_PATH . '/pages/member.php'
+                ]
+            ]
+        ],
+        [
+            'icon' => 'utensils',
+            'label' => '食物管理',
+            'children' => [
+                [
+                    'label' => '食物列表',
+                    'link'  => BASE_PATH . '/pages/fooddata.php'
+                ]
+            ]
+        ],
+        [
+            'icon' => 'box',
+            'label' => '商品管理',
+            'children' => [
+                [
+                    'label' => '商品檢視',
+                    'link'  => BASE_PATH . '/pages/product.php'
+                ]
+            ]
+        ],
+        [
+            'icon' => 'video',
+            'label' => '影音管理',
+            'children' => [
+                [
+                    'label' => '影音列表',
+                    'link'  => BASE_PATH . '/pages/video.php'
+                ]
+            ]
+        ],
+        [
+            'icon' => 'shopping-cart',
+            'label' => '訂單管理',
+            'children' => [
+                [
+                    'label' => '商品訂單管理',
+                    'link'  => BASE_PATH . '/pages/realItem_order.php'
+                ],
+                [
+                    'label' => '影片訂單管理',
+                    'link'  => BASE_PATH . '/pages/table_AYun/video_order.php'
+                ]
+            ]
+        ],
     ]
 ];

@@ -40,7 +40,7 @@
                 role="menu">
 
                 <?php foreach ($config['menuItems'] as $item): ?>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-<?= htmlspecialchars($item['icon']) ?>"></i>
                             <p>
@@ -50,12 +50,15 @@
                         </a>
 
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="<?= htmlspecialchars($item['link']) ?>" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p><?= htmlspecialchars($item['sub']) ?></p>
-                                </a>
-                            </li>
+                            <?php foreach ($item['children'] as $child): ?>
+                                <li class="nav-item">
+                                    <a href="<?= htmlspecialchars($child['link']) ?>"
+                                    class="nav-link <?= basename($_SERVER['PHP_SELF']) === basename($child['link']) ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p><?= htmlspecialchars($child['label']) ?></p>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
                         </ul>
                     </li>
                 <?php endforeach; ?>
